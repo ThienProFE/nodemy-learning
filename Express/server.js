@@ -52,12 +52,6 @@ app.post("/login", (req, res, next) => {
 
 app.use("/api/account/", accountRouter);
 
-app.get("/", (req, res, next) => {
-  res.json("HOME");
-});
-
-// app.use("/api/", router);
-
-app.listen(5000, () => {
+app.listen(process.env.PORT, () => {
   console.log(`Server started on port`);
 });
