@@ -2,16 +2,35 @@ const express = require("express");
 const router = express.Router();
 const AccountModel = require("../models/account");
 
+// Lay thong tin account
 router.get("/", (req, res, next) => {
-  AccountModel.find({})
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((err) => {
-      res.status(500).json("Loi server");
-    });
+  var page = req.query.page;
+  if (page) {
+    //get page
+    var PAGE_SIZE = 3;
+    page = parseInt(page);
+    if (page < 1) {
+      page = 1;
+    }
+    var skip_number = (page - 1) * PAGE_SIZE;
+    AccountModel.find({})
+      .skip(skip_number)
+      .limit(PAGE_SIZE)
+      .then((data) => res.json(data))
+      .catch((err) => res.status(500).json("Loi server"));
+  } else {
+    //get all
+    AccountModel.find({})
+      .then((data) => {
+        res.json(data);
+      })
+      .catch((err) => {
+        res.status(500).json("Loi server");
+      });
+  }
 });
 
+// Them 1 account
 router.post("/", (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
