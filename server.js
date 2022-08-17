@@ -52,6 +52,10 @@ app.post("/login", (req, res, next) => {
 
 app.use("/api/account/", accountRouter);
 
+app.get("/", (req, res, next) => {
+  res.json("HOME");
+});
+
 app.listen(process.env.PORT, () => {
   console.log(`Server started on port`);
 });
